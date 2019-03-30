@@ -19,3 +19,19 @@ TEST(Tokenizer, givenRightParen_ReturnsRPAREN) {
 
   ASSERT_EQ(tok.token, RPAREN);
 }
+
+TEST(Tokenizer,
+     givenLeftAndRigtParen_ReturnsLPARENAndRPARENOneSubsequentCalls) {
+  Tokenizer tokenizer("( )");
+  Token first = tokenizer.GetNextToken();
+  Token second = tokenizer.GetNextToken();
+
+  ASSERT_EQ(first.token, LPAREN);
+  ASSERT_EQ(second.token, RPAREN);
+}
+
+TEST(Tokenizer, givenInsert_ReturnsINSERT) {
+  Tokenizer tokenizer("INSERT");
+  Token actual = tokenizer.GetNextToken();
+  ASSERT_EQ(actual.token, INSERT);
+}

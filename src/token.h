@@ -18,6 +18,7 @@ typedef enum {
 
 class Token {
 public:
+  Token() : line(0), col(0), token(UNSET), literal("") {}
   int line;
   int col;
   token_t token;

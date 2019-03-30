@@ -11,6 +11,7 @@ public:
 
 private:
   std::string buffer;
+  unsigned int point;
 };
 
 #endif
