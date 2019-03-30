@@ -4,12 +4,11 @@
 #include <string>
 
 typedef enum {
+  UNSET,
   COMMA,
   LPAREN,
   RPAREN,
   IDENTIFIER,
-  QUOTED_CONSTANT,
-  UNQUOTED_CONSTANT,
   INSERT,
   INTO,
   VALUES,
@@ -18,6 +17,7 @@ typedef enum {
 } token_t;
 
 class Token {
+public:
   int line;
   int col;
   token_t token;

@@ -12,3 +12,10 @@ TEST(Tokenizer, givenLeftParen_ReturnsLPAREN) {
 
   ASSERT_EQ(tok.token, LPAREN);
 }
+
+TEST(Tokenizer, givenRightParen_ReturnsRPAREN) {
+  Tokenizer tokenizer(")");
+  Token tok = tokenizer.GetNextToken();
+
+  ASSERT_EQ(tok.token, RPAREN);
+}
