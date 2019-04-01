@@ -13,6 +13,8 @@ typedef enum {
   INTO,
   VALUES,
   COMMENT,
+  NUMERIC_CONSTANT,
+  STRING_CONSTANT,
   GO
 } token_t;
 

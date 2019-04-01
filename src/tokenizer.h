@@ -12,6 +12,8 @@ public:
 private:
   std::string buffer;
   unsigned int point;
+
+  string GetNextString();
 };
 
 #endif

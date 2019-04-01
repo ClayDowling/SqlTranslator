@@ -1,4 +1,5 @@
 #include "tokenizer.h"
+#include <cctype>
 #include <cstring>
 
 using namespace std;
@@ -8,29 +9,71 @@ Tokenizer::Tokenizer(string src) {
   point = 0;
 }
 
+token_t identify_keyword(string candidate) {
+  string target = "";
+
+  for (unsigned int i = 0; i < candidate.length(); ++i) {
+    target += tolower(candidate[i]);
+  }
+
+  if (target == "insert") {
+    return INSERT;
+  }
+  if (target == "into") {
+    return INTO;
+  }
+  if (target == "values") {
+    return VALUES;
+  }
+
+  bool isnumeric = true;
+  for (unsigned int i = 0; isnumeric && i < candidate.length(); ++i) {
+    if (!isdigit(candidate[i]))
+      isnumeric = false;
+  }
+  if (isnumeric) {
+    return NUMERIC_CONSTANT;
+  }
+
+  return IDENTIFIER;
+}
+
 Token Tokenizer::GetNextToken() {
   Token tok;
-  string current;
+  string candidate;
+  char cur;
 
   while (isspace(buffer[point]))
     point++;
 
-  while (point < buffer.length()) {
+  tok.col = point;
+  while (tok.token == UNSET && point < buffer.length()) {
 
-    current += buffer[point++];
-
-    if (current == "(") {
+    cur = buffer[point++];
+    switch (cur) {
+    case '(':
       tok.token = LPAREN;
       break;
-    }
-    if (current == ")") {
+    case ')':
       tok.token = RPAREN;
       break;
-    }
-    if (current == "INSERT") {
-      tok.token = INSERT;
+    case ',':
+      tok.token = COMMA;
       break;
+    case ' ':
+    case '\r':
+    case '\t':
+    case '\n':
+    case 0:
+      break;
+    default:
+      candidate += cur;
     }
+  }
+
+  if (tok.token == UNSET) {
+    tok.token = identify_keyword(candidate);
+    tok.literal = candidate;
   }
 
   return tok;
